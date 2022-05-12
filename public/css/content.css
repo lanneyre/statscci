@@ -1,0 +1,94 @@
+.logo {
+    background-color: #292a2c;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    padding-left: 100px;
+    z-index: 2;
+}
+
+.logo img {
+    height: 50px;
+}
+
+
+main {
+    padding-top: 80px;
+}
+
+.search {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.filtre,
+.colonnes {
+    border: 1px solid #292a2c;
+    background-color: #dddddd;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    width: 49%;
+}
+
+.result {
+    border: 1px solid #292a2c;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+legend {
+    padding: 0 5px;
+    font-size: 1em;
+    font-style: italic;
+}
+
+.form-check-label {
+    padding-left: 0.5rem !important;
+}
+
+.search section {
+    display: flex;
+    justify-content: space-around;
+}
+
+.search section>div {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.colonnes section {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.colonnes section>div {
+    width: 50%;
+}
+
+fieldset.btn {
+    width: 100%;
+}
+
+.btn button {
+    border: 1px solid #292a2c;
+    width: 20%;
+    margin: 0;
+    border-radius: 5px;
+}
+
+td.section {
+    font-weight: bold;
+    color: #292a2c;
+    text-align: center;
+}
+
+tr.totaux {
+    font-weight: bold;
+    font-style: italic;
+    color: #292a2c;
+}
