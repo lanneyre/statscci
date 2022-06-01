@@ -19,7 +19,7 @@
             </li> <!-- /.list-group-item --> --}}
 
             <li class="list-group-item pl-3 py-2">
-                <a href="/storage/TemplateFile.xlsx"><i class="fa fa-file-excel-o " aria-hidden="true"><span
+                <a href="{{ route('export') }}"><i class="fa fa-file-excel-o " aria-hidden="true"><span
                             class="ml-2 align-middle">Modele
                             Xlsx</span></i></a>
             </li>

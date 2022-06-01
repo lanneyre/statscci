@@ -26,23 +26,27 @@
                         Lieu
                     </label>
                 </div>
-                {{-- <div class="form-check">
-                    <input name="filtres[]" type="checkbox" value="critere" id="filtre-cri">
-                    <label class="form-check-label mr-2" for="filtre-cri">
-                        Critère
-                    </label>
+            </section>
+            <section class="row">
+                <label class="form-check-label col-12 text-center" for="datedds">
+                    Dates (laissez vide pour tout afficher)
+                </label>
+                <div class="d-flex justify-content-around row date">
+                    <div class="input-group col-5">
+                        <span class="input-group-text" id="datedd">Du</span>
+                        <input name="datedd" type="date" class="form-control" aria-label="datedd"
+                            aria-describedby="datedd" value="{{ Request::input('datedd') }}">
+                    </div>
+                    <div class="input-group col-5">
+                        <span class="input-group-text" id="datedf">Au</span>
+                        <input name="datedf" type="date" class="form-control" aria-label="datedf"
+                            aria-describedby="datedf" value="{{ Request::input('datedf') }}">
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input name="filtres[]" type="checkbox" value="date" id="filtre-d">
-                    <label class="form-check-label" for="filtre-d">
-                        Date
-                    </label>
-                </div> --}}
             </section>
         </fieldset>
         <fieldset class="colonnes">
             <legend>Colonnes</legend>
-
             <section>
                 @forelse ($allcriteres as $critere)
                     <div class="form-check">

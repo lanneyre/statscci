@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Imports\PoleEmploiImport;
+use App\Exports\ExcelExport;
 use App\Models\Centre;
 use App\Models\Critere;
 use App\Models\Formation;
 use Illuminate\Http\Request;
-use Excel;
+// use Excel;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel as Excel;
 // use Maatwebsite\Excel\Facades\Excel;
 
 class ImportExcelController extends Controller
@@ -81,5 +83,11 @@ class ImportExcelController extends Controller
         }
 
         return Redirect::route("home")->withSuccess("Importation réussie");
+    }
+
+    function export()
+    {
+        return Excel::download(new ExcelExport, 'Template.xlsx');
+        //return Excel::download(new ExcelExport($data[0]), 'Template.xlsx');
     }
 }

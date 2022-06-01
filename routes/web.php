@@ -22,5 +22,8 @@ Route::resource('Formation', FormationController::class);
 
 Route::post('/import', [ImportExcelController::class, 'import'])->name("importTraitement");
 Route::get("/import", [ImportExcelController::class, 'index'])->name("import");
+
+Route::get("/export", [ImportExcelController::class, 'export'])->name("export");
+
 Route::post('/', [Controller::class, 'index'])->name("search");
 Route::get('/', [Controller::class, 'index'])->name("home");

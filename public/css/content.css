@@ -92,3 +92,7 @@ tr.totaux {
     font-style: italic;
     color: #292a2c;
 }
+
+.date .col-5 {
+    width: calc(100% * 5 / 12) !important;
+}

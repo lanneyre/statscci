@@ -33,7 +33,7 @@ class Formation extends Model
     /**
      * Get the centre that owns the formation.
      */
-    public function centre()
+    public function centres()
     {
         return $this->belongsTo(Centre::class);
     }

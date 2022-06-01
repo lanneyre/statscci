@@ -18,6 +18,11 @@ class Controller extends BaseController
     //
     function index(Request $request)
     {
+        if ($request->has('datedd') && $request->has('datedf') && $request->datedf > $request->datedd) {
+            $dates = true;
+        } else {
+            $dates = false;
+        }
         $allcriteres = Critere::all();
         if ($request->has('criteres')) {
             // $criteres = Critere::where('id', ">", 0)->orWhere($cr)->get();
@@ -29,7 +34,11 @@ class Controller extends BaseController
         // dd($criteres);
         if ($request->has('filtres')) {
             if (in_array("Formations", $request->filtres)) {
-                $formations = Formation::all();
+                if ($dates) {
+                    $formations = Formation::where('dd', ">", $request->datedf)->Where('df', "<", $request->datedd)->get();
+                } else {
+                    $formations = Formation::all();
+                }
             } else {
                 $formations = null;
             }
@@ -124,13 +133,46 @@ class Controller extends BaseController
         if (!empty($lieux)) {
             $arraySearch[$ligne]["titre"] = "Lieux";
             $ligne++;
+            $total = [];
+            for ($i = 1; $i <= count($lieux); $i++) {
+                $total[$i] = 0;
+            }
             foreach ($lieux as $lieu) {
-                $arraySearch[$ligne][] = $lieu->lieu;
-                // foreach ($centre->criteres() as $crit) {
-                //     $arraySearch[$ligne][] = $crit->pivot()->valeur;
-                // }
+                $col = 0;
+                $arraySearch[$ligne][$col] = $lieu->lieu;
+                $col++;
+
+                $centreAll = Centre::where("lieu", $lieu->lieu)->get();
+                foreach ($centreAll as $cent) {
+                    $formsAll = $cent->formations()->get();
+                    foreach ($formsAll as $form) {
+                        if ($request->has('criteres')) {
+                            $crits = $form->criteres()->whereIn('id', $request->criteres)->get();
+                        } else {
+                            $crits = $form->criteres()->get();
+                        }
+                        foreach ($crits as $crit) {
+                            if (empty($arraySearch[$ligne][$col])) {
+                                $arraySearch[$ligne][$col] = 0;
+                            }
+                            if (empty($total[$col])) {
+                                $total[$col] = 0;
+                            }
+                            $arraySearch[$ligne][$col] += $crit->pivot->valeur;
+                            $total[$col] += $crit->pivot->valeur;
+                            $col++;
+                        }
+                        $col -= count($crits) + 1;
+                    }
+                }
+                $col++;
                 $ligne++;
             }
+            $arraySearch[$ligne]["total"] = "Totaux";
+            foreach ($total as $value) {
+                $arraySearch[$ligne][] = $value;
+            }
+            $ligne++;
         }
 
 
