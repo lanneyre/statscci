@@ -143,6 +143,7 @@ class Controller extends BaseController
                 $col++;
 
                 $centreAll = Centre::where("lieu", $lieu->lieu)->get();
+
                 foreach ($centreAll as $cent) {
                     $formsAll = $cent->formations()->get();
                     foreach ($formsAll as $form) {
@@ -152,14 +153,18 @@ class Controller extends BaseController
                             $crits = $form->criteres()->get();
                         }
                         foreach ($crits as $crit) {
-                            if (empty($arraySearch[$ligne][$col])) {
-                                $arraySearch[$ligne][$col] = 0;
+                            if ($col > 0) {
+                                if (empty($arraySearch[$ligne][$col])) {
+                                    $arraySearch[$ligne][$col] = 0;
+                                }
+                                if (empty($total[$col])) {
+                                    $total[$col] = 0;
+                                }
+                                //var_dump($ligne, $col, $arraySearch[$ligne][$col], $crit->pivot->valeur,  "<br>");
+
+                                $arraySearch[$ligne][$col] += $crit->pivot->valeur;
+                                $total[$col] += $crit->pivot->valeur;
                             }
-                            if (empty($total[$col])) {
-                                $total[$col] = 0;
-                            }
-                            $arraySearch[$ligne][$col] += $crit->pivot->valeur;
-                            $total[$col] += $crit->pivot->valeur;
                             $col++;
                         }
                         $col -= count($crits) + 1;
