@@ -186,7 +186,6 @@ class Controller extends BaseController
 
     function index()
     {
-
         $allcriteres = Critere::all();
         $criteres = $allcriteres;
         // dd($criteres);
@@ -275,29 +274,29 @@ class Controller extends BaseController
                 $col++;
 
                 $centreAll = Centre::where("lieu", $lieu->lieu)->get();
-
                 foreach ($centreAll as $cent) {
                     $formsAll = $cent->formations()->get();
                     foreach ($formsAll as $form) {
 
-                        $crits = $form->criteres()->get();
-
+                        $crits = $form->criteres()->orderBy("critere_id")->get();
                         foreach ($crits as $crit) {
-                            if ($col > 0) {
-                                if (empty($arraySearch[$ligne][$col])) {
-                                    $arraySearch[$ligne][$col] = 0;
-                                }
-                                if (empty($total[$col])) {
-                                    $total[$col] = 0;
-                                }
-                                //var_dump($ligne, $col, $arraySearch[$ligne][$col], $crit->pivot->valeur,  "<br>");
-
-                                $arraySearch[$ligne][$col] += $crit->pivot->valeur;
-                                $total[$col] += $crit->pivot->valeur;
+                            //if ($col > 0) {
+                            if (empty($arraySearch[$ligne][$col])) {
+                                $arraySearch[$ligne][$col] = 0;
                             }
+                            if (empty($total[$col])) {
+                                $total[$col] = 0;
+                            }
+                            //if ($col > 0) {
+                            //var_dump($ligne, $col, $arraySearch[$ligne][$col], $crit->pivot->valeur,  "<br>");
+                            //dump($crit);
+
+                            $arraySearch[$ligne][$col] += $crit->pivot->valeur;
+                            $total[$col] += $crit->pivot->valeur;
+                            //dump($crit->pivot->valeur . "-> " . $arraySearch[$ligne][$col]);
                             $col++;
                         }
-                        $col -= count($crits) + 1;
+                        $col -= count($crits);
                     }
                 }
                 $col++;
