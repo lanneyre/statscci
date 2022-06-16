@@ -24,7 +24,13 @@ class UpdateFormationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            //"id" =>             "required|integer",
+            "nom" =>            "required|string",
+            "dd" =>             "required|date",
+            "df" =>             "required|date|after:dd",
+            "numMarche" =>      "string",
+            "numConvention" =>  "string",
+            "centre_id" =>      "required|integer"
         ];
     }
 }

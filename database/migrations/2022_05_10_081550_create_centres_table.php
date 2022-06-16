@@ -18,6 +18,7 @@ class CreateCentresTable extends Migration
             $table->timestamps();
             $table->string("nom");
             $table->string("lieu");
+            $table->softDeletes();
         });
     }
 

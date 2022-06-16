@@ -13,7 +13,7 @@ class StoreCentreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,8 @@ class StoreCentreRequest extends FormRequest
     {
         return [
             //
+            "nom" =>            "required|string",
+            "lieu" =>           "required|string"
         ];
     }
 }

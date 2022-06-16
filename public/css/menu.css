@@ -339,14 +339,22 @@ a:focus {
     width: 75px;
     overflow: hidden;
     transition: width 0.5s;
+    transition: ease;
 }
 
 [data-component=sidebar] .first-menu a {
     color: #fff;
+    text-decoration: none;
 }
 
 [data-component=sidebar] .first-menu i {
     font-size: 24px;
+}
+
+[data-component=sidebar] .first-menu i::before {
+    display: inline-block;
+    font-size: 24px;
+    width: 30px;
 }
 
 [data-component=sidebar] .first-menu span {
@@ -355,11 +363,14 @@ a:focus {
     font-family: "Open Sans", sans-serif;
     opacity: 0;
     visibility: hidden;
+    position: absolute;
+    left: -900;
 }
 
 [data-component=sidebar] .first-menu:hover span {
     opacity: 1;
     visibility: visible;
+    position: relative;
 }
 
 [data-component=sidebar] .first-menu .list-group-item {
@@ -370,8 +381,12 @@ a:focus {
     background-color: #009fff;
 }
 
+[data-component=sidebar] .first-menu .list-group-item.active {
+    background-color: #00426b;
+}
+
 [data-component=sidebar] .first-menu:hover {
-    width: 160px;
+    width: 200px;
 }
 
 [data-component=sidebar] .list-group-item {

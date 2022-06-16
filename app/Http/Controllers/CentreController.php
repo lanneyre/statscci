@@ -16,6 +16,8 @@ class CentreController extends Controller
     public function index()
     {
         //
+        $centres = Centre::all();
+        return view("centres.index", ["centres" => $centres]);
     }
 
     /**
@@ -26,6 +28,7 @@ class CentreController extends Controller
     public function create()
     {
         //
+        return view("centres.create");
     }
 
     /**
@@ -36,7 +39,12 @@ class CentreController extends Controller
      */
     public function store(StoreCentreRequest $request)
     {
-        //
+        $c = Centre::create($request->all());
+        if ($c) {
+            return redirect()->route('Centre.index')->with("success", "Centre créé avec succés");
+        } else {
+            return redirect()->route('Centre.index')->with("error", "Centre créé sans succés");
+        }
     }
 
     /**
@@ -59,6 +67,8 @@ class CentreController extends Controller
     public function edit(Centre $centre)
     {
         //
+        $centre = $centre->first();
+        return view("centres.edit", ["centre" => $centre]);
     }
 
     /**
@@ -71,6 +81,13 @@ class CentreController extends Controller
     public function update(UpdateCentreRequest $request, Centre $centre)
     {
         //
+        $c = $centre->first();
+        $r = $c->update($request->all());
+        if ($r) {
+            return redirect()->route('Centre.index')->with("success", "Centre modifié avec succés");
+        } else {
+            return redirect()->route('Centre.index')->with("error", "Centre modifié sans succé");
+        }
     }
 
     /**
@@ -82,5 +99,10 @@ class CentreController extends Controller
     public function destroy(Centre $centre)
     {
         //
+        if ($centre->first()->delete()) {
+            return redirect()->route('Centre.index')->with("success", "Centre supprimé avec succés");
+        } else {
+            return redirect()->route('Centre.index')->with("error", "Centre supprimé avec succés");
+        }
     }
 }

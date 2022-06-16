@@ -13,7 +13,7 @@ class StoreFormationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreFormationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "nom" =>            "required|string",
+            "dd" =>             "required|date",
+            "df" =>             "required|date|after:dd",
+            "numMarche" =>      "string",
+            "numConvention" =>  "string",
+            "centre_id" =>      "required|integer"
         ];
     }
 }

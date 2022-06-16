@@ -23,6 +23,7 @@ class CreateFormationsTable extends Migration
             $table->string("numConvention")->nullable();
             $table->unsignedBigInteger("centre_id")->index();
             $table->foreign('centre_id')->references('id')->on('centres');
+            $table->softDeletes();
         });
     }
 

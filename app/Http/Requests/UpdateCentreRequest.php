@@ -13,7 +13,7 @@ class UpdateCentreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,8 @@ class UpdateCentreRequest extends FormRequest
     {
         return [
             //
+            "nom" =>            "required|string",
+            "lieu" =>           "required|string"
         ];
     }
 }

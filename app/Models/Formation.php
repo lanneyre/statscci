@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Formation extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,6 +17,7 @@ class Formation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'nom',
         'dd',
         'df',
@@ -35,7 +38,7 @@ class Formation extends Model
      */
     public function centres()
     {
-        return $this->belongsTo(Centre::class);
+        return $this->belongsTo(Centre::class, "centre_id");
     }
 
     /**

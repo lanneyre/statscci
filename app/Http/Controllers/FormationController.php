@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
 use App\Models\Formation;
+use App\Models\Centre;
 
 class FormationController extends Controller
 {
@@ -16,6 +17,8 @@ class FormationController extends Controller
     public function index()
     {
         //
+        $formations = Formation::all();
+        return view("formations.index", ["formations" => $formations]);
     }
 
     /**
@@ -26,6 +29,8 @@ class FormationController extends Controller
     public function create()
     {
         //
+        $centres = Centre::all();
+        return view("formations.create", ["centres" => $centres]);
     }
 
     /**
@@ -37,6 +42,9 @@ class FormationController extends Controller
     public function store(StoreFormationRequest $request)
     {
         //
+        // dd($request->all());
+        Formation::create($request->all());
+        return redirect()->route('Formation.index')->with("success", "Formation créé avec succés");
     }
 
     /**
@@ -59,6 +67,10 @@ class FormationController extends Controller
     public function edit(Formation $formation)
     {
         //
+        $centres = Centre::all();
+        $formation = $formation->first();
+        return view("formations.edit", ["formation" => $formation, "centres" => $centres]);
+        //return view("formations.edit", ["formation" => $formation]);
     }
 
     /**
@@ -71,6 +83,13 @@ class FormationController extends Controller
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
         //
+        $f = $formation->first();
+        $r = $f->update($request->all());
+        if ($r) {
+            return redirect()->route('Formation.index')->with("success", "Formation modifiée avec succés");
+        } else {
+            return redirect()->route('Formation.index')->with("error", "Formation modifiée sans succé");
+        }
     }
 
     /**
@@ -82,5 +101,7 @@ class FormationController extends Controller
     public function destroy(Formation $formation)
     {
         //
+        $formation->first()->delete();
+        return redirect()->route('Formation.index')->with("success", "Formation supprimée avec succés");
     }
 }

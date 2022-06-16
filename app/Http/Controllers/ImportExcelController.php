@@ -20,7 +20,8 @@ class ImportExcelController extends Controller
     {
         return (\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date))->format($format);
     }
-    function index(Request $request)
+
+    function index()
     {
         return view('import_excel');
     }
