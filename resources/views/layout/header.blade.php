@@ -2,8 +2,8 @@
     <div class="sidebar">
         <ul class="list-group flex-column d-inline-block first-menu">
             <li class="list-group-item pl-3 py-2 @if ($menuActif == '') active @endif">
-                <a href="{{ route('home') }}"><i class="fas fa-home" aria-hidden="true"></i><span
-                        class="ml-2 align-left">Accueil </span></i></a>
+                <a href="{{ route('home') }}"><i class="fas fa-home" aria-hidden="true"><span
+                            class="ml-2 align-left">Accueil </span></i></a>
             </li> <!-- /.list-group-item -->
 
             <li class="list-group-item pl-3 py-2 @if ($menuActif == 'Centre') active @endif">
