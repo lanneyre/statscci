@@ -5,6 +5,7 @@ use App\Http\Controllers\ImportExcelController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\CentreController;
+use App\Http\Controllers\CritereController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ use App\Http\Controllers\CentreController;
 */
 
 Route::resource('Centre', CentreController::class);
-// Route::resource('Critere', CritereController::class);
+Route::resource('Critere', CritereController::class);
 Route::resource('Formation', FormationController::class);
 
 Route::post('/import', [ImportExcelController::class, 'import'])->name("importTraitement");

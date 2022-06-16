@@ -16,6 +16,9 @@ class CritereController extends Controller
     public function index()
     {
         //
+
+        $criteres = Critere::all();
+        return view("criteres.index", ["criteres" => $criteres]);
     }
 
     /**
@@ -25,7 +28,7 @@ class CritereController extends Controller
      */
     public function create()
     {
-        //
+        return view("criteres.create");
     }
 
     /**
@@ -36,7 +39,12 @@ class CritereController extends Controller
      */
     public function store(StoreCritereRequest $request)
     {
-        //
+        $c = Critere::create($request->all());
+        if ($c) {
+            return redirect()->route('Critere.index')->with("success", "Critere créé avec succés");
+        } else {
+            return redirect()->route('Critere.index')->with("error", "Critere créé sans succés");
+        }
     }
 
     /**
@@ -58,7 +66,8 @@ class CritereController extends Controller
      */
     public function edit(Critere $critere)
     {
-        //
+        $critere = $critere->first();
+        return view("criteres.edit", ["critere" => $critere]);
     }
 
     /**
@@ -70,7 +79,13 @@ class CritereController extends Controller
      */
     public function update(UpdateCritereRequest $request, Critere $critere)
     {
-        //
+        $c = $critere->first();
+        $r = $c->update($request->all());
+        if ($r) {
+            return redirect()->route('Critere.index')->with("success", "Critere modifié avec succés");
+        } else {
+            return redirect()->route('Critere.index')->with("error", "Critere modifié sans succé");
+        }
     }
 
     /**
@@ -81,6 +96,10 @@ class CritereController extends Controller
      */
     public function destroy(Critere $critere)
     {
-        //
+        if ($critere->first()->delete()) {
+            return redirect()->route('Critere.index')->with("success", "Critere supprimé avec succés");
+        } else {
+            return redirect()->route('Critere.index')->with("error", "Critere supprimé avec succés");
+        }
     }
 }

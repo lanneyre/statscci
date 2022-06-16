@@ -16,12 +16,11 @@
                             class="ml-2 align-left">Formations</span></i></a>
             </li> <!-- /.list-group-item -->
 
-            {{-- <li class="list-group-item pl-3 py-2">
-                <a href="#">
-                    <i class="fa fa-check-square-o" aria-hidden="true"><span
-                            class="ml-2 align-left">Critères</span></i>
+            <li class="list-group-item pl-3 py-2">
+                <a href="{{ route('Critere.index') }}">
+                    <i class="fa fa-check-square" aria-hidden="true"><span class="ml-2 align-left">Critères</span></i>
                 </a>
-            </li> <!-- /.list-group-item --> --}}
+            </li> <!-- /.list-group-item -->
 
             <li class="list-group-item pl-3 py-2">
                 <a href="{{ route('export') }}"><i class="fa fa-file-excel" aria-hidden="true"><span
