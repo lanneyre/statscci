@@ -1,7 +1,7 @@
 @extends('layout.template')
 @section('main')
     <h1>Gestion des Centres</h1>
-    <table class="table">
+    <table class="table table-striped" id="tableCentre">
         <thead>
             <tr>
                 <th>Nom</th>

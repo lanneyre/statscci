@@ -1,7 +1,7 @@
 @extends('layout.template')
 @section('main')
     <h1>Gestion des Critères</h1>
-    <table class="table">
+    <table class="table table-striped" id="tableCritere">
         <thead>
             <tr>
                 <th>Nom</th>

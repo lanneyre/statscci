@@ -1,7 +1,7 @@
 @extends('layout.template')
 @section('main')
     <h1>Gestion des formations</h1>
-    <table class="table">
+    <table class="table table-striped" id="tableFormation">
         <thead>
             <tr>
                 <th>Nom</th>
