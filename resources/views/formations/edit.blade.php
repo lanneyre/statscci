@@ -1,7 +1,7 @@
 @extends('layout.template')
 @section('main')
     <h1>Gestion des formations</h1>
-    <form method="POST" action="{{ route('Formation.update', $formation->id) }}">
+    <form method="POST" action="{{ route('Formation.update', $formation) }}">
         @method('PUT')
         @csrf
         <div class="row">
@@ -13,8 +13,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="numMarche" class="form-label">Numéro de marché</label>
-                    <input type="text" class="form-control" name="numMarche" id="numMarche" placeholder="Numéro de marché"
-                        value="{{ $formation->numMarche }}">
+                    <input type="text" class="form-control" name="numMarche" id="numMarche"
+                        placeholder="Numéro de marché" value="{{ $formation->numMarche }}">
                 </div>
                 <div class="mb-3">
                     <label for="numConvention" class="form-label">Numéro de convention</label>
@@ -46,6 +46,25 @@
 
                 </div>
             </div>
+        </div>
+        <hr>
+        <div class="row">
+            <h2>Critères</h2>
+            {{-- on rajoute les critères --}}
+
+            @forelse ($criteres as $critere)
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="critere{{ $critere->id }}" class="form-label">{{ $critere->nom }}</label>
+                        <input type="number" name="critere[{{ $critere->id }}]" class="form-control"
+                            id="critere{{ $critere->id }}"
+                            value="{{ isset($criteresFormation[$critere->id]) ? $criteresFormation[$critere->id] : 0 }}"
+                            min="0">
+                    </div>
+                </div>
+            @empty
+                Il n'y a pas de critere
+            @endforelse
         </div>
         <div class="col-3">
 

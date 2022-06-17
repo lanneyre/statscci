@@ -13,6 +13,25 @@
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="row">
+            <h2>Formations</h2>
+            {{-- on rajoute les critères --}}
+
+            @forelse ($formations as $formation)
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="formation{{ $formation->id }}" class="form-label">{{ $formation->nom }}</label>
+                        <input type="number" name="formation[{{ $formation->id }}]" class="form-control"
+                            id="formation{{ $formation->id }}"
+                            value="{{ isset($formationsCritere[$formation->id]) ? $formationsCritere[$formation->id] : 0 }}"
+                            min="0">
+                    </div>
+                </div>
+            @empty
+                Il n'y a pas de formation
+            @endforelse
+        </div>
         <div class="col-3">
 
             <label for="btn" class="form-label">&nbsp;</label>

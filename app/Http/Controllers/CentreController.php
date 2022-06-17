@@ -64,10 +64,10 @@ class CentreController extends Controller
      * @param  \App\Models\Centre  $centre
      * @return \Illuminate\Http\Response
      */
-    public function edit(Centre $centre)
+    public function edit(int $centre)
     {
         //
-        $centre = $centre->first();
+        $centre = Centre::find($centre);
         return view("centres.edit", ["centre" => $centre]);
     }
 
@@ -78,10 +78,10 @@ class CentreController extends Controller
      * @param  \App\Models\Centre  $centre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCentreRequest $request, Centre $centre)
+    public function update(UpdateCentreRequest $request, int $centre)
     {
         //
-        $c = $centre->first();
+        $c = Centre::find($centre);
         $r = $c->update($request->all());
         if ($r) {
             return redirect()->route('Centre.index')->with("success", "Centre modifié avec succés");

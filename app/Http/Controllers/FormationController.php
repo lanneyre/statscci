@@ -6,6 +6,7 @@ use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
 use App\Models\Formation;
 use App\Models\Centre;
+use App\Models\Critere;
 
 class FormationController extends Controller
 {
@@ -43,8 +44,8 @@ class FormationController extends Controller
     {
         //
         // dd($request->all());
-        Formation::create($request->all());
-        return redirect()->route('Formation.index')->with("success", "Formation créé avec succés");
+        $f = Formation::create($request->all());
+        return redirect()->route('Formation.edit', $f)->with("success", "Formation créé avec succés");
     }
 
     /**
@@ -64,12 +65,19 @@ class FormationController extends Controller
      * @param  \App\Models\Formation  $formation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Formation $formation)
+    public function edit(int $formation)
     {
         //
         $centres = Centre::all();
-        $formation = $formation->first();
-        return view("formations.edit", ["formation" => $formation, "centres" => $centres]);
+        //dd($formation);
+        $formation = Formation::find($formation);
+        $criteres = Critere::all();
+        $criteresFormation = [];
+        //dump($formation);
+        foreach ($formation->criteres as $critere) {
+            $criteresFormation[$critere->id] = $critere->pivot->valeur;
+        }
+        return view("formations.edit", ["criteresFormation" => $criteresFormation, "criteres" => $criteres, "formation" => $formation, "centres" => $centres]);
         //return view("formations.edit", ["formation" => $formation]);
     }
 
@@ -80,11 +88,17 @@ class FormationController extends Controller
      * @param  \App\Models\Formation  $formation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFormationRequest $request, Formation $formation)
+    public function update(UpdateFormationRequest $request, int $formation)
     {
         //
-        $f = $formation->first();
-        $r = $f->update($request->all());
+        $f = Formation::find($formation);
+        //$r = $f->update($request->all());
+        //dd($request->all());
+        $criteres = [];
+        foreach ($request->critere as $critereId => $critereValue) {
+            $criteres[$critereId] = ["valeur" => $critereValue];
+        }
+        $r = $f->update($request->all()) && $f->criteres()->sync($criteres);
         if ($r) {
             return redirect()->route('Formation.index')->with("success", "Formation modifiée avec succés");
         } else {

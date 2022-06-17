@@ -41,6 +41,19 @@ class Formation extends Model
         return $this->belongsTo(Centre::class, "centre_id");
     }
 
+    // public function critere(Critere $c)
+    // {
+    //     $criteres = $this->criteres()->where('critere_id', $c->id)->first()->pivot->valeur;
+    //     dump($this->id . "->" . $criteres);
+    //     // foreach ($criteres as $critere) {
+    //     //     //dump($critere);
+    //     //     if ($critere->id == $c->id && $critere->pivot->formation_id == $this->id) {
+    //     //         return $critere->pivot->valeur;
+    //     //     }
+    //     // }
+    //     return 0;
+    // }
+
     /**
      * The critere that belong to the formation.
      */

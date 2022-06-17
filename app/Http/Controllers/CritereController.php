@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCritereRequest;
 use App\Http\Requests\UpdateCritereRequest;
 use App\Models\Critere;
+use App\Models\Formation;
 
 class CritereController extends Controller
 {
@@ -64,10 +65,15 @@ class CritereController extends Controller
      * @param  \App\Models\Critere  $critere
      * @return \Illuminate\Http\Response
      */
-    public function edit(Critere $critere)
+    public function edit(int $critere)
     {
-        $critere = $critere->first();
-        return view("criteres.edit", ["critere" => $critere]);
+        $critere = Critere::find($critere);
+        $formations = Formation::all();
+        $formationsCritere = [];
+        foreach ($critere->formations as $formation) {
+            $formationsCritere[$formation->id] = $formation->pivot->valeur;
+        }
+        return view("criteres.edit", ["formationsCritere" => $formationsCritere, "formations" => $formations, "critere" => $critere]);
     }
 
     /**
@@ -80,7 +86,12 @@ class CritereController extends Controller
     public function update(UpdateCritereRequest $request, Critere $critere)
     {
         $c = $critere->first();
-        $r = $c->update($request->all());
+        $formations = [];
+        foreach ($request->formation as $formationId => $FormationValue) {
+            # code...
+            $formations[$formationId] = ["valeur" => $FormationValue];
+        }
+        $r = $c->update($request->all()) && $c->formations()->sync($formations);
         if ($r) {
             return redirect()->route('Critere.index')->with("success", "Critere modifié avec succés");
         } else {
