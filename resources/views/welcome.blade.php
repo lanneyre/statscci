@@ -27,13 +27,13 @@
                         Centre
                     </label>
                 </div>
-                <div class="form-check">
+                {{-- <div class="form-check">
                     <input name="filtres[]" type="checkbox" value="Lieux" id="filtre-l"
                         @if (empty(Request::input('filtres')) || in_array('Lieux', Request::input('filtres'))) checked @endif>
                     <label class="form-check-label" for="filtre-l">
                         Lieu
                     </label>
-                </div>
+                </div> --}}
             </section>
             <section id="filtresAllFormations"
                 @if (empty(Request::input('filtresFormations'))) style="display: none" @else style="display: flex" @endif>
