@@ -264,7 +264,8 @@ class Controller extends BaseController
         // }
 
 
-        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
+        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "arraySearch" => $arraySearch]);
+        // return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
     }
 
     function index()
@@ -393,6 +394,7 @@ class Controller extends BaseController
         // }
 
 
-        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
+        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "arraySearch" => $arraySearch]);
+        // return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
     }
 }
