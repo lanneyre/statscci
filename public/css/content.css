@@ -96,3 +96,7 @@ tr.totaux {
 .date .col-5 {
     width: calc(100% * 5 / 12) !important;
 }
+
+#filtresAllFormations {
+    flex-wrap: wrap;
+}
