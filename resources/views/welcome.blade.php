@@ -12,6 +12,14 @@
                         Formation
                     </label>
                 </div>
+                <div class="form-check filtresFormations"
+                    @if (empty(Request::input('filtres')) || in_array('Formations', Request::input('filtres'))) style="display: flex" @else style="display: none" @endif>
+                    <input name="filtresFormations" type="checkbox" value="allFormations" id="filtre-all-f"
+                        @if (!empty(Request::input('filtresFormations'))) checked @endif>
+                    <label class="form-check-label" for="filtre-all-f">
+                        Regrouper les formations
+                    </label>
+                </div>
                 <div class="form-check">
                     <input name="filtres[]" type="checkbox" value="Centres" id="filtre-c"
                         @if (empty(Request::input('filtres')) || in_array('Centres', Request::input('filtres'))) checked @endif>
@@ -26,6 +34,18 @@
                         Lieu
                     </label>
                 </div>
+            </section>
+            <section id="filtresAllFormations"
+                @if (empty(Request::input('filtresFormations'))) style="display: none" @else style="display: flex" @endif>
+                @foreach ($distinctFormations as $df)
+                    <div class="form-check">
+                        <input name="distinctFormations[]" type="checkbox" value="{{ $df->nom }}"
+                            id="form-{{ Str::slug($df->nom) }}" @if (empty(Request::input('distinctFormations')) || in_array($df->nom, Request::input('distinctFormations'))) checked @endif>
+                        <label class="form-check-label" for="form-{{ Str::slug($df->nom) }}">
+                            {{ $df->nom }}
+                        </label>
+                    </div>
+                @endforeach
             </section>
             <section class="row">
                 <label class="form-check-label col-12 text-center" for="datedds">

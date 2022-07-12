@@ -46,10 +46,32 @@
     </script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script>
+        let filtresFormation = function() {
+            if ($("#filtre-f").is(":checked")) {
+                $(".filtresFormations").css("display", "flex");
+                $("#filtre-all-f").prop("checked", true);
+            } else {
+                $(".filtresFormations").css("display", "none");
+            }
+            filtresAllFormation();
+        }
+        let filtresAllFormation = function() {
+            if ($(".filtresFormations").css("display") == "flex" && $("#filtre-all-f").is(":checked")) {
+                $("#filtresAllFormations").css("display", "flex");
+
+            } else {
+                $("#filtresAllFormations").css("display", "none");
+            }
+        }
         $(document).ready(function() {
             $('#tableCritere').DataTable();
             $('#tableCentre').DataTable();
             $('#tableFormation').DataTable();
+            // filtresFormation();
+            // filtresAllFormation();
+            $("#filtre-f").change(filtresFormation);
+            $("#filtre-all-f").change(filtresAllFormation);
+
         });
     </script>
 </body>

@@ -32,6 +32,7 @@ class Controller extends BaseController
             $criteres = $allcriteres;
         }
         // dd($criteres);
+        $distinctFormations = Formation::select("nom")->distinct()->get();
         if ($request->has('filtres')) {
             if (in_array("Formations", $request->filtres)) {
                 if ($dates) {
@@ -39,6 +40,12 @@ class Controller extends BaseController
                 } else {
                     $formations = Formation::all();
                 }
+                // if ($request->has('distinctFormations')) {
+                //     $FormationSeleted = Formation::WhereIn("nom", $request->distinctFormations)->get();
+                //     //dd($distinctFormations);
+                // } else {
+                //     $FormationSeleted = null;
+                // }
             } else {
                 $formations = null;
             }
@@ -66,40 +73,116 @@ class Controller extends BaseController
         }
         $ligne++;
         if (!empty($formations)) {
-            $arraySearch[$ligne]["titre"] = "Formations";
-            $ligne++;
-            $total = [];
-            for ($i = 1; $i <= count($criteres); $i++) {
-                $total[$i] = 0;
-            }
-            foreach ($formations as $formation) {
-                $col = 0;
-                $arraySearch[$ligne][$col] = $formation->nom;
-                $col++;
-                if (empty($request->criteres)) {
-                    $c = $formation->criteres()->get();
-                } else {
-                    $c = $formation->criteres()->wherePivotIn("critere_id", $request->criteres)->get();
+            if (empty($distinctFormations) || empty($request->filtresFormations)) {
+                $arraySearch[$ligne]["titre"] = "Formations";
+                $ligne++;
+                $total = [];
+                for ($i = 1; $i <= count($criteres); $i++) {
+                    $total[$i] = 0;
                 }
-                if (count($c) > 0) {
-                    foreach ($c as $crit) {
-                        $total[$col] += $crit->pivot->valeur;
-                        $arraySearch[$ligne][$col] = $crit->pivot->valeur;
-                        $col++;
+                foreach ($formations as $formation) {
+                    $col = 0;
+                    $arraySearch[$ligne][$col] = $formation->nom;
+                    $col++;
+                    if (empty($request->criteres)) {
+                        $c = $formation->criteres()->get();
+                    } else {
+                        $c = $formation->criteres()->wherePivotIn("critere_id", $request->criteres)->get();
                     }
-                } else {
-                    for ($i = 0; $i < count($criteres); $i++) {
-                        $arraySearch[$ligne][$col] = 0;
-                        $col++;
+                    if (count($c) > 0) {
+                        foreach ($c as $crit) {
+                            $total[$col] += $crit->pivot->valeur;
+                            $arraySearch[$ligne][$col] = $crit->pivot->valeur;
+                            $col++;
+                        }
+                    } else {
+                        for ($i = 0; $i < count($criteres); $i++) {
+                            $arraySearch[$ligne][$col] = 0;
+                            $col++;
+                        }
                     }
+                    $ligne++;
+                }
+                $arraySearch[$ligne]["total"] = "Totaux";
+                foreach ($total as $value) {
+                    $arraySearch[$ligne][] = $value;
+                }
+                $ligne++;
+            } else {
+                $arraySearch[$ligne]["titre"] = "Formations regroupées";
+                $ligne++;
+                $total = [];
+                for ($i = 1; $i <= count($criteres); $i++) {
+                    $total[$i] = 0;
+                }
+
+                //dd($distinctFormations);
+                foreach ($request->distinctFormations as $df) {
+                    $formationsByNom = Formation::Where("nom", $df)->get();
+                    $col = 0;
+                    //dump($formationsByNom);
+                    $arraySearch[$ligne][$col] = $formationsByNom[0]->nom;
+                    $col++;
+                    // ligne première formation :
+                    foreach ($formationsByNom as $formationByNom) {
+                        if (empty($request->criteres)) {
+                            $c = $formationByNom->criteres()->get();
+                        } else {
+                            $c = $formationByNom->criteres()->wherePivotIn("critere_id", $request->criteres)->get();
+                        }
+                        if (count($c) > 0) {
+                            foreach ($c as $crit) {
+                                $total[$col] += $crit->pivot->valeur;
+                                if (empty($arraySearch[$ligne][$col])) {
+                                    $arraySearch[$ligne][$col] = $crit->pivot->valeur;
+                                } else {
+                                    $arraySearch[$ligne][$col] += $crit->pivot->valeur;
+                                }
+                                $col++;
+                            }
+                        } else {
+                            for ($i = 0; $i < count($criteres); $i++) {
+                                $arraySearch[$ligne][$col] = 0;
+                                $col++;
+                            }
+                        }
+                        $col = 1;
+                        //dump($c);
+                    }
+                    $ligne++;
+                }
+                // foreach ($FormationSeleted as $formation) {
+                //     $col = 0;
+                //     $arraySearch[$ligne][$col] = $formation->nom;
+                //     $col++;
+                //     if (empty($request->criteres)) {
+                //         $c = $formation->criteres()->get();
+                //     } else {
+                //         $c = $formation->criteres()->wherePivotIn("critere_id", $request->criteres)->get();
+                //     }
+                //     if (count($c) > 0) {
+                //         foreach ($c as $crit) {
+                //             $total[$col] += $crit->pivot->valeur;
+                //             $arraySearch[$ligne][$col] = $crit->pivot->valeur;
+                //             $col++;
+                //         }
+                //     } else {
+                //         for ($i = 0; $i < count($criteres); $i++) {
+                //             $arraySearch[$ligne][$col] = 0;
+                //             $col++;
+                //         }
+                //     }
+                //     $ligne++;
+                // }
+
+
+
+                $arraySearch[$ligne]["total"] = "Totaux";
+                foreach ($total as $value) {
+                    $arraySearch[$ligne][] = $value;
                 }
                 $ligne++;
             }
-            $arraySearch[$ligne]["total"] = "Totaux";
-            foreach ($total as $value) {
-                $arraySearch[$ligne][] = $value;
-            }
-            $ligne++;
         }
 
         if (!empty($centres)) {
@@ -181,7 +264,7 @@ class Controller extends BaseController
         }
 
 
-        return view('welcome', ["allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
+        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
     }
 
     function index()
@@ -192,7 +275,7 @@ class Controller extends BaseController
         $formations = Formation::all();
         $centres = Centre::all();
         $lieux = Centre::select('lieu')->distinct()->get();
-
+        $distinctFormations = Formation::select("nom")->distinct()->get();
         $ligne = 0;
         $arraySearch = [];
         $arraySearch[$ligne][] = null;
@@ -310,6 +393,6 @@ class Controller extends BaseController
         }
 
 
-        return view('welcome', ["allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
+        return view('welcome', ["distinctFormations" => $distinctFormations, "allcriteres" => $allcriteres, "criteres" => $criteres, "formations" => $formations, "centres" => $centres, "lieux" => $lieux, "arraySearch" => $arraySearch]);
     }
 }
