@@ -99,4 +99,5 @@ tr.totaux {
 
 #filtresAllFormations {
     flex-wrap: wrap;
+    justify-content: start;
 }
